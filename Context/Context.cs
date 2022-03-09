@@ -43,7 +43,7 @@ namespace Entities
                 entity.HasOne(d => d.Artist)
                     .WithMany(p => p.Albums)
                     .HasForeignKey(d => d.ArtistId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -84,9 +84,12 @@ namespace Entities
 
             modelBuilder.Entity<Track>(entity =>
             {
+           
+
                 entity.HasOne(d => d.MediaType)
                     .WithMany(p => p.Tracks)
                     .HasForeignKey(d => d.MediaTypeId)
+                    .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 

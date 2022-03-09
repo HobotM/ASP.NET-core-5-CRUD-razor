@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Entities;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace Matt
 {
@@ -23,33 +26,25 @@ namespace Matt
 
         [BindProperty]
         public Album Album { get; set; }
+        public ICollection<Track> Tracks { get; set; }
         public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(long? id, bool? saveChangesError = false)
+             public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Album = await _context.Albums
-                .Include(a => a.Artist)
-                .Include(a => a.Tracks) 
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
+            Album = await _context.Albums.FirstOrDefaultAsync(m => m.AlbumId == id);
 
             if (Album == null)
             {
                 return NotFound();
             }
-
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
-            }
-
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync(long? id)
         {
@@ -58,26 +53,21 @@ namespace Matt
                 return NotFound();
             }
 
-            var albums = await _context.Albums.FindAsync(id);
+            
+                Album = await _context.Albums
+                .Include(a => a.Tracks)        
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.AlbumId == id);
 
-            if (albums == null)
+            if (Album != null)
             {
-                return NotFound();
-            }
 
-            try
-            {
-                _context.Albums.Remove(albums);
+                 
+                _context.Albums.Remove(Album);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
             }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, ErrorMessage);
 
-                return RedirectToAction("./Delete",
-                                     new { id, saveChangesError = true });
-            }
+            return RedirectToPage("./Index");
         }
     }
 }

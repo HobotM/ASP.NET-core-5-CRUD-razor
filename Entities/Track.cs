@@ -26,6 +26,7 @@ namespace Entities
         [Column(TypeName = "NVARCHAR(200)")]
         public string Name { get; set; }
         public long? AlbumId { get; set; }
+        
         public long MediaTypeId { get; set; }
         public long? GenreId { get; set; }
         [Column(TypeName = "NVARCHAR(220)")]
