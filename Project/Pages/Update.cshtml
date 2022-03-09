@@ -1,0 +1,59 @@
+@page
+@model WebApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WebApp</title>
+    <style>
+        table,
+        th,
+        td {
+            border: thin black solid
+        }
+        .buttons {
+            padding: 1rem;
+            margin: 10px;
+            display: flex ;
+            flex-direction:row ;
+
+        }
+        a {
+        margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>@ViewData["StudentInfo"]</h1>
+    <table class="table table-striped table-dark">
+        <tr>
+
+            <th scope="col">Album</th>
+            <th scope="col">Artist</th>
+            <th scope="col"> </th>
+
+        </tr>
+        @foreach (var q in Model.queryResults)
+        {
+            <tr>
+
+                <td>@q.Title</td>
+                <td>@q.ArtistName</td>
+                <td class="buttons">
+                    <a type="submit" class="btn btn-info" href="#">Details</a>
+                    <a type="submit" class="btn btn-light" href="#">Update</a>
+                    <a type="submit" class="btn btn-danger" href="#">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+
+</html>

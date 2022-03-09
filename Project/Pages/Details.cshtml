@@ -1,0 +1,48 @@
+@page
+@model WebApp.Pages.DetailsModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WebApp</title>
+    <style>
+        table,
+        th,
+        td {
+            border: thin black solid
+        }
+
+        .buttons {
+            padding: 1rem;
+            margin: 10px;
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        a {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Chinook Music Store</h1>
+    <h2>@Html.DisplayFor(model => model.Album.Artist.Name) @Html.DisplayFor(model => model.Album.Artist.ArtistId) (@Html.DisplayFor(model => model.Album.Title) - Album)</h2>
+
+    <p>Tracks:</p>
+<ol>
+    @foreach (var q in Model.Album.Tracks)
+    {
+            <li>@Html.DisplayFor(modelItem => q.Name)</li> 
+    }
+</ol>
+
+    </table>
+
+    <a asp-page="Index" type="submit" class="btn btn-info">Back</a>
+</body>
+
+</html>
