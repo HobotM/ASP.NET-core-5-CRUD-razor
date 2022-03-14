@@ -36,7 +36,9 @@ namespace Matt
                 return NotFound();
             }
 
-            Album = await _context.Albums.FirstOrDefaultAsync(m => m.AlbumId == id);
+            Album = await _context.Albums
+            .Include(a => a.Tracks)
+            .FirstOrDefaultAsync(m => m.AlbumId == id);
 
             if (Album == null)
             {
@@ -55,7 +57,8 @@ namespace Matt
 
             
                 Album = await _context.Albums
-                .Include(a => a.Tracks)        
+                .Include(a => a.Tracks)  
+                        
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AlbumId == id);
 

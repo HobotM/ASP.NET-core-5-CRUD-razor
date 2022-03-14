@@ -23,6 +23,7 @@ namespace WebApp.Pages
 
         public IActionResult OnGet()
         {
+           
             return Page();
         }
 
@@ -39,7 +40,7 @@ namespace WebApp.Pages
             if (await TryUpdateModelAsync<Album>(
                 emptyAlbum,
                 "Album",   // Prefix for form value.
-                s=> s.Title, s => s.Artist, s => s.Tracks))
+                s=> s.Title, s => s.ArtistId, s => s.Tracks))
             {
                 _context.Albums.Add(emptyAlbum);
                 await _context.SaveChangesAsync();
