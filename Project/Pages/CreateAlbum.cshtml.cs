@@ -21,10 +21,10 @@ namespace WebApp.Pages
             _context = context;
         }
         public IEnumerable<Artist> Artist { get; set; }
-        public IActionResult OnGet()
+        public IActionResult OnGet(long? id)
         {
            
-        var artists = _context.Artists.Select( c => c.Name ).ToList();
+        Artist = _context.Artists.ToList();
            
             return Page();
         }
@@ -33,7 +33,7 @@ namespace WebApp.Pages
         public Album Album { get; set; }
         
         #region snippet_OnPostAsync
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(long? id)
         {
             #region snippet_TryUpdateModelAsync
             var emptyAlbum = new Album();
@@ -43,6 +43,12 @@ namespace WebApp.Pages
                 "Album",   // Prefix for form value.
                 s=> s.Title, s => s.Artist, s => s.Tracks))
             {
+                Album = await _context.Albums
+                .Include(a => a.Tracks)  
+                .Include(b => b.Artist)   
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.AlbumId == id);
+
                _context.Albums.Add(emptyAlbum);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
