@@ -20,9 +20,11 @@ namespace WebApp.Pages
         {
             _context = context;
         }
-
+        public IEnumerable<Artist> Artist { get; set; }
         public IActionResult OnGet()
         {
+           
+        var artists = _context.Artists.Select( c => c.Name ).ToList();
            
             return Page();
         }
@@ -30,7 +32,6 @@ namespace WebApp.Pages
         [BindProperty]
         public Album Album { get; set; }
         
-
         #region snippet_OnPostAsync
         public async Task<IActionResult> OnPostAsync()
         {
@@ -40,9 +41,9 @@ namespace WebApp.Pages
             if (await TryUpdateModelAsync<Album>(
                 emptyAlbum,
                 "Album",   // Prefix for form value.
-                s=> s.Title, s => s.ArtistId, s => s.Tracks))
+                s=> s.Title, s => s.Artist, s => s.Tracks))
             {
-                _context.Albums.Add(emptyAlbum);
+               _context.Albums.Add(emptyAlbum);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }

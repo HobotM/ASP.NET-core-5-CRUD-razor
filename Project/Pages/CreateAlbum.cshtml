@@ -32,7 +32,7 @@
 <body>
 <h1>Create</h1>
 
-<h4>Student</h4>
+<h4>Album</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,17 +42,23 @@
                 <label asp-for="Album.Title" class="control-label"></label>
                 <input asp-for="Album.Title" class="form-control" />
                 <span asp-validation-for="Album.Title" class="text-danger"></span>
-            </div>
+            </div> 
             <div class="form-group">
-                <label asp-for="Album.ArtistId" class="control-label"></label>
-                <input asp-for="Album.ArtistId" class="form-control" />
-                <span asp-validation-for="Album.ArtistId" class="text-danger"></span>
-            </div>
-             <div class="form-group">
                 <label asp-for="Album.Artist.Name" class="control-label"></label>
                 <input asp-for="Album.Artist.Name" class="form-control" />
-                <span asp-validation-for="Album.Artist.Name" class="text-danger"></span>
-            </div>
+                <span asp-validation-for="Album.Title" class="text-danger"></span>
+            </div> 
+            
+            <div>
+            <label>Artist</label>
+            <datalist>
+                @foreach (var item in Model.Artist)
+                {
+                    <option>@item.Name</option>
+                    
+                }
+            </datalist>
+            </div> 
             <div class="form-group">
                 <label asp-for="Album.Tracks" class="control-label"></label>
                 <input asp-for="Album.Tracks" class="form-control" />
@@ -70,5 +76,16 @@
 </div>
     <a asp-page="Index" class="btn btn-secondary">Back</a>
 </body>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $("#ddlArtists").select2();
+    });
+    </script>
+}
 
 </html>
