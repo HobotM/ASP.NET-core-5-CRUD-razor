@@ -1,62 +1,65 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Web;
 using Entities;
-using static System.Console;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace WebApp.Pages
 {
-   public class CreateAlbumModel : PageModel
+    public class CreateAlbumModel : PageModel
     {
-        private readonly Entities.Chinook _context;
+        public IList<Artist> artists { get; set; }
+        public IList<Album> albums { get; set; }
+        public IList<Track> tracks { get; set; }
 
-        public CreateAlbumModel(Entities.Chinook context)
+        public void OnGet()
         {
-            _context = context;
+
+            Chinook context = new Chinook();
+            artists = context.Artists.ToList();
         }
-        public IEnumerable<Artist> Artist { get; set; }
-        public IActionResult OnGet(long? id)
+        public IActionResult OnPost()
         {
-           
-        Artist = _context.Artists.ToList();
-           
-            return Page();
-        }
+            Chinook context = new Chinook();
+            string title = Request.Form["titlename"];
+            int arts = int.Parse(Request.Form["artist"]);
 
-        [BindProperty]
-        public Album Album { get; set; }
-        
-        #region snippet_OnPostAsync
-        public async Task<IActionResult> OnPostAsync(long? id)
-        {
-            #region snippet_TryUpdateModelAsync
-            var emptyAlbum = new Album();
 
-            if (await TryUpdateModelAsync<Album>(
-                emptyAlbum,
-                "Album",   // Prefix for form value.
-                s=> s.Title, s => s.Artist, s => s.Tracks))
+            Album newAlbum = new Album
             {
-                Album = await _context.Albums
-                .Include(a => a.Tracks)  
-                .Include(b => b.Artist)   
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
+                Title = title,
+                ArtistId = arts
+            };
+            context.Albums.Add(newAlbum);
+            context.SaveChanges();
 
-               _context.Albums.Add(emptyAlbum);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+            albums = context.Albums.ToList();
+
+            // Get new Album Id
+            long? newalbId = newAlbum.AlbumId;
+
+            // Get all the input on Track array
+            string[] trackList = Request.Form["song[]"];
+
+            // Insert all input on Track array into Track database
+            foreach (var trk in trackList)
+            {
+                Track newTrack = new Track();
+                newTrack.AlbumId = newalbId;
+                newTrack.Name = trk;
+                // Default value set for below, as its currently not being ask in insert form
+                newTrack.GenreId = 3;
+                newTrack.MediaTypeId = 3;
+                newTrack.Milliseconds = 375418;
+                newTrack.UnitPrice = 1;
+                context.Tracks.AddAsync(newTrack);
+                context.SaveChangesAsync();
             }
-            #endregion
+            return Redirect("~/Index");
 
-            return Page();
         }
-        #endregion
     }
 }

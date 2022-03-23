@@ -43,44 +43,6 @@ namespace WebApp.Pages
             return Page();
         }
 
-
-        // public async Task OnGet(int AlbumId)
-        // {
-        //     ViewData["Info"] = "Album";
-
-        //     using (Chinook db = new Chinook())
-        //     {
-        //         // Heading = "Album";
-        //         // var queryResults = db.Albums
-        //         // .Join(
-        //         //     db.Artists,
-        //         //     alb => alb.AlbumId,
-        //         //     art => art.ArtistId,
-        //         //     (alb, art) => new
-        //         //     {
-        //         //         AlbumId = alb.AlbumId,
-        //         //         AlbumName = alb.Title,
-        //         //         ArtistName = art.Name
-        //         //     }
-        //         // ).ToList();
-        //         // (
-        //         //     db.Tracks,
-        //         //     alb => alb.AlbumId,
-        //         //     track => track.TrackId,
-        //         //     (alb, track) => new
-        //         //     {
-        //         //         AlbumId = alb.AlbumId,
-        //         //         AlbumName = alb.AlbumName,
-        //         //         ArtistName = alb.ArtistName,
-        //         //         TrackName = track.Name
-        //         //     }
-        //         // ).ToList();
-
-
-        //     }
-        // }
-
-
     }
 
 }

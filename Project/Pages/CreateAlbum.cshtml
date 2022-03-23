@@ -1,86 +1,78 @@
 @page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model WebApp.Pages.CreateAlbumModel
-@{
-    //ViewData["Title"] = "Add an Album";
-}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>WebApp</title>
-    <style>
-        table,
-        th,
-        td {
-            border: thin black solid
-        }
-        .buttons {
-            padding: 1rem;
-            margin: 10px;
-            display: flex ;
-            flex-direction:row ;
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/JavaScript">
+    function add(){
+    var new_chq_no = parseInt($('#total_chq').val())+1;
+    var new_input="<br><label>Song title </label><input type='text' name='song[]' id='new_"+new_chq_no+"'>";
+    $('#new_chq').append(new_input);
+    $('#total_chq').val(new_chq_no)
+    }
+    function remove(){
+    var last_chq_no = $('#total_chq').val();
+    if(last_chq_no>1){
+        $('#new_'+last_chq_no).remove();
+        $('#total_chq').val(last_chq_no-1);
+    }
+    }
 
-        }
-        a {
-        margin: 10px;
-        }
-    </style>
+   </script>
+    <title>Chinook Music</title>
 </head>
 
 <body>
-<h1>Create</h1>
+    <h1>Chinook Music Store</h1>
+    <form method="post" action="~/CreateAlbum">
+        <fieldset>
+            <legend>Add Album</legend>
 
-<h4>Album</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Album.Title" class="control-label"></label>
-                <input asp-for="Album.Title" class="form-control" />
-                <span asp-validation-for="Album.Title" class="text-danger"></span>
-            </div> 
-            
             <div>
-            <label for="Artists">Artist Name</label>
-            <input list="Artists" id="ArtistName" name="ArtistName" class="form-control" />
-            <datalist id="Artists">
-                @foreach (var item in Model.Artist)
-                {
-                   <option value="@item.Name"></option> 
-                }
-            </datalist>
-            </div> 
-            <div class="form-group">
-                <label asp-for="Album.Tracks" class="control-label"></label>
-                <input asp-for="Album.Tracks" class="form-control" />
-                <span asp-validation-for="Album.Tracks" class="text-danger"></span>
+                <legend>Title</legend>
+                <input type="text" name="titlename" required />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
-    <a asp-page="Index" class="btn btn-secondary">Back</a>
+            <br>
+
+            <div>
+                <legend>Artist</legend>
+                <input type="text" name="artist" list="artists" />
+                <datalist id="artists">
+                    @foreach (var i in Model.artists)
+                        {
+                        <option value="@i.ArtistId">@i.Name</option>
+                        }
+                </datalist>
+            </div>
+
+            <br>
+            <div>
+                <div>
+                    <legend>Song title</legend>
+                    <input type="text" name="song[]" required />
+                    <button type="button" class="btn btn-secondary" onclick="add()">Add another track</button>
+                    <button type="button" class="btn btn-secondary" onclick="remove()">Remove track</button>
+                    <div id="new_chq"></div>
+                    <input type="hidden" value="1" id="total_chq">
+                </div>
+                <br>
+                <div>
+                    <input type="submit" value="Submit" name="submit" class="btn btn-secondary" />
+        </fieldset>
+        @Html.AntiForgeryToken()
+    </form>
+    <div>
+        <a asp-page="Index">Back to List</a>
+    </div>
+    <a asp-page="Index" class="btn btn-info">Back</a>
 </body>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <link rel="stylesheet" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script type="text/javascript">
-    $(function () {
-        $("#ddlArtists").select2();
-    });
-    </script>
-}
 
 </html>

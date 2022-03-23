@@ -35,7 +35,7 @@ namespace Entities
         public long? Bytes { get; set; }
         [Required]
         [Column(TypeName = "NUMERIC(10,2)")]
-        public byte[] UnitPrice { get; set; }
+        public int UnitPrice { get; set; }
 
         [ForeignKey(nameof(AlbumId))]
         [InverseProperty("Tracks")]
