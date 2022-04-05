@@ -28,6 +28,14 @@
         a {
             margin: 10px;
         }
+        .form1 {
+            display: flex;
+            width: 30%;
+            margin: 10px;
+            flex-direction: row;
+            
+            
+        }
     </style>
 </head>
 
@@ -37,7 +45,8 @@
 
 
 
-    <form method="get">
+    <form method="get" class="form1">
+      
         <div class="input-group">
             <input class="form-control" asp-for="SearchTerm" />
             <div class="input-group-append">

@@ -21,17 +21,17 @@ namespace WebApp.Pages
 
         public IList<QueryResult> queryResults { get; set; }
         public IEnumerable<Album> Albums { get; set; }
-        
-       
+
+
         public string SearchTerm { get; set; }
 
-        
+
         public void OnGet(string SearchTerm)
         {
             ViewData["StudentInfo"] = "Mateusz Hobot (B00412541)";
             Chinook db = new Chinook();
 
-            if(string.IsNullOrEmpty(SearchTerm))
+            if (string.IsNullOrEmpty(SearchTerm))
             {
                 queryResults = db.Albums.Join(
                 db.Artists, alb => alb.ArtistId, art => art.ArtistId, (alb, art) => new QueryResult()
@@ -53,7 +53,7 @@ namespace WebApp.Pages
                 }
             ).OrderBy(Artist => Artist.ArtistName).Where(e => e.Title.Contains(SearchTerm)).ToList();
             }
-            
+
         }
 
     }
