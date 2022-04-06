@@ -40,7 +40,7 @@
 </head>
 
 <body>
-    <h1>@ViewData["StudentInfo"]</h1>
+    <h1>@ViewData["Album"]</h1>
     <a asp-page="CreateAlbum" class="btn btn-secondary">Create an Album</a>
 
 
@@ -48,7 +48,7 @@
     <form method="get" class="form1">
       
         <div class="input-group">
-            <input class="form-control" asp-for="SearchTerm" />
+            <input class="form-control" asp-for="SearchTerm" placeholder="Search for Album name" />
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>

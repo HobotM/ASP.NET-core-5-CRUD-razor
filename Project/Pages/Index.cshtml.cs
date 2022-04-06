@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Entities;
 
 namespace WebApp.Pages
@@ -24,6 +25,9 @@ namespace WebApp.Pages
 
 
         public string SearchTerm { get; set; }
+        
+
+        
 
 
         public void OnGet(string SearchTerm)

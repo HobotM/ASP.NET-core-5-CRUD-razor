@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Entities;
-using Matt;
 
 
 
@@ -25,6 +24,7 @@ namespace Matt
         [BindProperty]
         public Album Album { get; set; }
         public Artist Artist { get; set; }
+
 
 
         public async Task<IActionResult> OnGetAsync(long? id)
@@ -62,15 +62,15 @@ namespace Matt
 
             if (await TryUpdateModelAsync<Album>(
                 albumToUpdate,
-                "album",
-                s => s.Title, s => s.AlbumId))
+                "Album",
+                s => s.Title, s => s.ArtistId))
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
 
                 string[] Ids = Request.Form["item.TrackId"];
-                int[] TrackIds = Array.ConvertAll(Ids, int.Parse);
+                long[] TrackIds = Array.ConvertAll(Ids, long.Parse);
                 string[] TrackNames = Request.Form["item.Name"];
-                // int trackCount = TrackIds.Count();
+                
 
                 for (int i = 0; i < TrackIds.Count(); i++)
                 {
