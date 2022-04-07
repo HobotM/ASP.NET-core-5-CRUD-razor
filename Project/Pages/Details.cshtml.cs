@@ -22,14 +22,14 @@ namespace WebApp.Pages
 
         public Album Album  { get; set; }
 
-
+        // Get the albumId and include Artist and Tracks
         public async Task<IActionResult> OnGetAsync(long? id)
-        {
+        {   // if there is no id then return not found 
             if (id == null)
             {
                 return NotFound();
             }
-
+            // includes artist, tracks for selected album id
             Album = await _context.Albums
                 .Include(a => a.Artist)
                 .Include(a => a.Tracks)        
