@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+@* Load a script for adding a button and fields for new track to create if user wants to *@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +17,7 @@
     $('#new_chq').append(new_input);
     $('#total_chq').val(new_chq_no)
     }
-    function remove(){
+    function remove(){ 
     var last_chq_no = $('#total_chq').val();
     if(last_chq_no>1){
         $('#new_'+last_chq_no).remove();
@@ -41,8 +41,9 @@
             </div>
 
             <br>
-
-            <div>
+            @* Artist field *@
+            <div> 
+                
                 <legend>Artist</legend>
                 <input type="text" name="artist" list="artists" />
                 <datalist id="artists">

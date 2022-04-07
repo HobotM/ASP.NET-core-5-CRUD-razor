@@ -31,11 +31,11 @@ namespace WebApp.Pages
             }
             // includes artist, tracks for selected album id
             Album = await _context.Albums
-                .Include(a => a.ArtistId)
+                .Include(a => a.Artist)
                 .Include(a => a.Tracks)        
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
-
+                .AsNoTracking() //entities returned will not be cached
+                .FirstOrDefaultAsync(m => m.AlbumId == id); //Asynchronously returns the first element of a sequence in this case ID, or a default value if the sequence contains no elements.
+            // if no album then reurn to index
             if (Album == null)
             {
                 return NotFound();

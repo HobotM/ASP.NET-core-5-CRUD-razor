@@ -36,13 +36,13 @@ namespace Matt
             {
                 return NotFound();
             }
-            // includes tracks
+            // includes tracks, artist 
             Album = await _context.Albums
             .Include(a => a.Tracks)
             .Include(a => a.Artist)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.AlbumId == id);
-
+            .AsNoTracking() //entities returned will not be cached
+            .FirstOrDefaultAsync(m => m.AlbumId == id); //Asynchronously returns the first element of a sequence in this case ID, or a default value if the sequence contains no elements.
+            // if no album then reurn to index
             if (Album == null)
             {
                 return NotFound();
@@ -58,17 +58,18 @@ namespace Matt
                 return NotFound();
             }
 
-            
-                Album = await _context.Albums
-                .Include(a => a.Tracks)  
-                        
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.AlbumId == id);
+            // Insctance fo album includes tracks, artist 
+            Album = await _context.Albums
+            .Include(a => a.Tracks)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.AlbumId == id);
 
+
+            // if album is true than save changes 
             if (Album != null)
             {
 
-                 
+
                 _context.Albums.Remove(Album);
                 await _context.SaveChangesAsync();
             }

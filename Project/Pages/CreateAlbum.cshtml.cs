@@ -18,17 +18,17 @@ namespace WebApp.Pages
         // Get the list of artist from the artist context
         public void OnGet()
         {
-
+            // create instance of the Chinook and add artist from that context to list so we can use it in the main page
             Chinook context = new Chinook();
             artists = context.Artists.ToList();
         }
         public IActionResult OnPost()
         {
-            Chinook context = new Chinook();
-            string title = Request.Form["titlename"];
-            int arts = int.Parse(Request.Form["artist"]);
+            Chinook context = new Chinook(); // create instance of the Chinook
+            string title = Request.Form["titlename"]; // create form data titlename for string title
+            int arts = int.Parse(Request.Form["artist"]); // create form data artist for int arts
 
-
+            //create instance of the album
             Album newAlbum = new Album
             {
                 Title = title,
@@ -51,7 +51,7 @@ namespace WebApp.Pages
                 Track newTrack = new Track();
                 newTrack.AlbumId = newalbId;
                 newTrack.Name = trk;
-                // Default value set for below, as its currently not being ask in insert form
+                // Default value set for below, not used 
                 newTrack.GenreId = 3;
                 newTrack.MediaTypeId = 3;
                 newTrack.Milliseconds = 375418;

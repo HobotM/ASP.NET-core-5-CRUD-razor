@@ -29,19 +29,20 @@ namespace Matt
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
-            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Name");
+            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Name"); // Created a ViewData of ArtistId wich is used in html and it contains Artist Id and Name
 
+            // If if not found than redirect to NotFound page
             if (id == null)
             {
                 return NotFound();
             }
 
-            // Album = await _context.Albums.FindAsync(id);
-            Album = await _context.Albums
+            // includes artist, tracks for selected album id
+            Album = await _context.Albums 
             .Include(a => a.Artist)
             .Include(a => a.Tracks)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.AlbumId == id);
+            .AsNoTracking() //entities returned will not be cached
+            .FirstOrDefaultAsync(m => m.AlbumId == id); //Asynchronously returns the first element of a sequence in this case ID, or a default value if the sequence contains no elements.
 
             if (Album == null)
             {
