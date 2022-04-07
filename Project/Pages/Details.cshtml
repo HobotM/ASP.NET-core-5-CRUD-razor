@@ -32,8 +32,9 @@
     <h1>Chinook Music Store</h1>
     <h2>@Html.DisplayFor(model => model.Album.Artist.Name)
         @Html.DisplayFor(model => model.Album.Artist.ArtistId)
-        (@Html.DisplayFor(model => model.Album.Title) - Album)</h2>
-
+        (@Html.DisplayFor(model => model.Album.Title) - Album)
+    </h2>
+    <!-- used a forloop to display each track in the sorted list -->
     <p>Tracks:</p>
 <ol>
     @foreach (var q in Model.Album.Tracks)

@@ -15,6 +15,7 @@ namespace WebApp.Pages
         public IList<Album> albums { get; set; }
         public IList<Track> tracks { get; set; }
 
+        // Get the list of artist from the artist context
         public void OnGet()
         {
 
@@ -38,7 +39,7 @@ namespace WebApp.Pages
 
             albums = context.Albums.ToList();
 
-            // Get new Album Id
+            // Generate new album id
             long? newalbId = newAlbum.AlbumId;
 
             // Get all the input on Track array

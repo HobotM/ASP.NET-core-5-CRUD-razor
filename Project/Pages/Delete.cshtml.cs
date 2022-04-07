@@ -29,13 +29,14 @@ namespace Matt
         public ICollection<Track> Tracks { get; set; }
         public string ErrorMessage { get; set; }
 
-             public async Task<IActionResult> OnGetAsync(long? id)
+        // on get method reads Album id and all the tracks allocated to that album
+        public async Task<IActionResult> OnGetAsync(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
+            // includes tracks
             Album = await _context.Albums
             .Include(a => a.Tracks)
             .Include(a => a.Artist)
@@ -49,7 +50,7 @@ namespace Matt
             return Page();
         }
 
-
+        // on post method 
         public async Task<IActionResult> OnPostAsync(long? id)
         {
             if (id == null)
