@@ -38,6 +38,8 @@ namespace Matt
 
             Album = await _context.Albums
             .Include(a => a.Tracks)
+            .Include(a => a.Artist)
+            .AsNoTracking()
             .FirstOrDefaultAsync(m => m.AlbumId == id);
 
             if (Album == null)

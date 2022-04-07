@@ -1,85 +1,100 @@
-﻿@page "{searchString?}"
-@model WebApp.Pages.IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@page
+@model Matt.IndexModel
 
-<!DOCTYPE html>
-<html>
+<style>
+    table,
+    th,
+    td {
+        border: thin black solid
+    }
 
-<head>
-    <meta charset="utf-8">
-    <title>WebApp</title>
-    <style>
-        table,
-        th,
-        td {
-            border: thin black solid
-        }
+    .buttons {
+        padding: 1rem;
 
-        .buttons {
-            padding: 1rem;
+        display: flex;
+        flex-direction: row;
 
-            display: flex;
-            flex-direction: row;
+    }
 
-        }
+    a {
+        margin: 10px;
+    }
 
-        a {
-            margin: 10px;
-        }
-        .form1 {
-            display: flex;
-            width: 30%;
-            margin: 10px;
-            flex-direction: row;
-            
-            
-        }
-    </style>
-</head>
+    .form1 {
+        display: flex;
+        width: 30%;
+        margin: 10px;
+        flex-direction: row;
 
-<body>
-    <h1>@ViewData["Album"]</h1>
+
+    }
+</style>
+
+<h2>@ViewData["Title"]B00412541 - Mateusz Hobot</h2>
+
+<p>
     <a asp-page="CreateAlbum" class="btn btn-secondary">Create an Album</a>
+</p>
 
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" placeholder="Find by title" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 
-
-    <form method="get" class="form1">
-      
-        <div class="input-group">
-            <input class="form-control" asp-for="SearchTerm" placeholder="Search for Album name" />
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
-    </form>
-
-
-
-    <table class="table table-striped table-dark">
+<table class="table table-striped table-dark">
+    <thead>
         <tr>
-
-            <th scope="col">Album</th>
-            <th scope="col">Artist</th>
-            <th scope="col"> </th>
-
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Albums[0].Title)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Albums[0].Artist.Name)
+                </a>
+            </th>
+            <th></th>
         </tr>
-        @foreach (var q in Model.queryResults)
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Albums)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
 
-                <td>@q.Title</td>
-                <td>@q.ArtistName</td>
-                <td class="buttons">
-                    <a asp-page="Details" asp-route-id="@q.AlbumId" class="btn btn-info">Details</a>
-                    <a asp-page="Update" asp-route-id="@q.AlbumId" class="btn btn-light">Update</a>
-                    <a asp-page="Delete" asp-route-id="@q.AlbumId" class="btn btn-danger">Delete</a>
+                <td>
+                    <a asp-page="./Update" asp-route-id="@item.AlbumId" class="btn btn-info">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.AlbumId" class="btn btn-light">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.AlbumId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
+    </tbody>
+</table>
 
-    </table>
-</body>
+@{
+    var prevDisabled = !Model.Albums.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Albums.HasNextPage ? "disabled" : "";
+}
 
-</html>
+<a asp-page="./Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(Model.Albums.PageIndex - 1)"
+    asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(Model.Albums.PageIndex + 1)"
+    asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-primary @nextDisabled">
+    Next
+</a>

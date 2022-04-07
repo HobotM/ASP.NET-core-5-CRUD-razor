@@ -31,7 +31,7 @@ namespace WebApp.Pages
             }
 
             Album = await _context.Albums
-                .Include(a => a.Artist)
+                .Include(a => a.ArtistId)
                 .Include(a => a.Tracks)        
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AlbumId == id);
